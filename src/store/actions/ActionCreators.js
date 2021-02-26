@@ -36,10 +36,10 @@ export const fetchStats = () => dispatch => {
     }));
 }
 
-export const fetchHistories = () => dispatch => {
+export const fetchHistories = (country = 'Pakistan') => dispatch => {
     dispatch({ type: ActionTypes.HISTORY_LOADING });
 
-    return fetch(`https://${ RAPIDAPI_HOST }/history?country=pakistan`, {
+    return fetch(`https://${ RAPIDAPI_HOST }/history?country=${country}`, {
         "method": 'GET',
         "headers": {
             'x-rapidapi-key': RAPIDAPI_KEY,

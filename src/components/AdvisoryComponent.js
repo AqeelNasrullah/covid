@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { PUBLIC_URL } from '../conf/conf'
 
 const Advisory = () => {
+    useEffect(() => {
+        document.title = "Advisory - COVID-19 Statistics";
+    }, [])
+
     return (
         <>
             {/* Symptoms */}
