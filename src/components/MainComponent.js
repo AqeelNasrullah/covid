@@ -4,6 +4,7 @@ import Footer from "./layout/FooterComponent";
 import { Route, Switch } from "react-router-dom";
 import Home from "./HomeComponent";
 import Global from "./GlobalComponent";
+import Advisory from "./AdvisoryComponent";
 
 const Main = () => {
     const [footerHeight, setFooterHeight] = useState(0);
@@ -23,6 +24,16 @@ const Main = () => {
         <Switch>
             <Route exact path="/" component={ Home } />
             <Route path="/global" component={ Global } />
+            <Route path="/advisory" component={ Advisory } />
+            <Route path="/stats/country/:country" component={ props => {
+              return (
+                <>
+                  <div className="container">
+                    <h1>{ props.match.params.country.replace(/\b\w/g, s => s.toUpperCase()) }</h1>
+                  </div>
+                </>
+              )
+            } } />
     
           {/* 404 Route */}
           <Route
