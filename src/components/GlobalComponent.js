@@ -23,7 +23,7 @@ const Global = () => {
                 <div className="container">
                     <h1>Global Statistics</h1>
                     <Table responsive size="sm">
-                        <thead>
+                        <thead style={{ position: 'sticky', top: '0px' }}>
                             <tr>
                                 <th>#</th>
                                 <th>Country</th>
