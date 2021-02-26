@@ -157,7 +157,7 @@ const Home = () => {
                     { histories.loading ? '' : histories.err ? <p className="text-center mb-0 text-danger"><i className="bi bi-exclamation-circle"></i> { histories.err }</p> : (
                         <div className="row">
                         <div className="col-12 col-md-6">
-                            <Line width="100" height="50" data={{
+                            <Line data={{
                                 labels: xAxis,
                                 datasets: [
                                     {
@@ -170,7 +170,7 @@ const Home = () => {
                             <h6 className="text-center mt-3">Covid-19 Cases Situation in Pakistan</h6>
                         </div>
                         <div className="col-12 col-md-6">
-                            <Line width="100" height="50" data={{
+                            <Line data={{
                                 labels: xAxis,
                                 datasets: [
                                     {

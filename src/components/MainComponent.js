@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "./layout/HeaderComponent";
 import Footer from "./layout/FooterComponent";
-import { Link, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Home from "./HomeComponent";
 import Global from "./GlobalComponent";
 
@@ -31,7 +31,6 @@ const Main = () => {
                 <div className="container py-5">
                   <h1 className="text-center font-weight-bolder">404 - Not Found</h1>
                   <p className="text-center font-weight-bolder">The page you requested is not found on server.</p>
-                  <p className="text-center"><Link to="/" className="text-danger"><i className="bi bi-arrow-left"></i> Go to Home</Link></p>
                 </div>
               );
             }}
