@@ -7,15 +7,18 @@ import { fetchStats } from '../store/actions/ActionCreators';
 const Global = () => {
     const dispatch = useDispatch();
     const statistics = useSelector(state => state.statistics);
-    const stats = statistics.stats?.response?.filter(stat => stat.country !== 'All');
-    const total = statistics.stats?.response?.filter(stat => stat.country === 'All')[0];
+    let stats = statistics.stats?.response?.filter(stat => stat.country !== 'All');
+    stats = stats?.sort((a, b) => b.cases.total - a.cases.total);
+    const total = statistics.stats.response?.filter(stat => stat.country === 'All')[0];
+    let continents = stats?.map(({continent}) => continent);
+    continents = [...new Set(continents)];
 
     useEffect(() => {
         document.title = 'Global - COVID-19 Statistics';
         dispatch(fetchStats());
     }, [dispatch])
 
-    console.log(statistics);
+    console.log(continents);
 
     return (
         <>

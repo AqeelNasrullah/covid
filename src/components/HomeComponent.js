@@ -3,12 +3,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Card, CardBody, CardFooter, CardHeader } from 'reactstrap';
 import { PUBLIC_URL } from '../conf/conf'
 import { fetchHistories } from '../store/actions/ActionCreators';
+import { Line } from "react-chartjs-2";
 
 const Home = () => {
     const dispatch = useDispatch();
     const histories = useSelector(state => state.histories);
     const current = `${ new Date().getFullYear() }-${ ((new Date().getMonth() + 1).toString()).length < 2 ? '0' + (new Date().getMonth() + 1) : new Date().getMonth() + 1 }-${ new Date().getDate().toString().length < 2 ? '0' + new Date().getDate() : new Date().getDate() }`;
     const dataPk = histories.histories.response?.filter(history => history.day === current)[0];
+    
+    // Data for graphs
+    let xAxis = histories.histories.response?.slice(0, 14).map(({day}) => day);
+    let newCases = histories.histories.response?.slice(0,14).map(({cases:{new: newCs}}) => Number(newCs));
+    let newDeaths = histories.histories.response?.slice(0,14).map(({deaths:{new: newDts}}) => Number(newDts));
 
     useEffect(() => {
         dispatch(fetchHistories());
@@ -32,7 +38,7 @@ const Home = () => {
             </section>
 
             {/* Statistics */}
-            <section>
+            <section className="pb-5">
                 <div className="container">
                     <h3 className="font-weight-bolder mb-3">Pakistan Statistics</h3>
                     
@@ -139,7 +145,45 @@ const Home = () => {
                                 </Card>
                             </div>
                         </div>
+                        <div className="mb-5">
+                            <h5 className="text-right">Last Updated at { new Intl.DateTimeFormat('en', {year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'}).format(new Date(dataPk?.time)) }</h5>
+                        </div>
                     </div>)) }
+                </div>
+            </section>
+
+            <section>
+                <div className="container">
+                    { histories.loading ? '' : histories.err ? <p className="text-center mb-0 text-danger"><i className="bi bi-exclamation-circle"></i> { histories.err }</p> : (
+                        <div className="row">
+                        <div className="col-12 col-md-6">
+                            <Line width="100" height="50" data={{
+                                labels: xAxis,
+                                datasets: [
+                                    {
+                                        label: 'Confirmed Cases',
+                                        data: newCases,
+                                        borderColor: 'green'
+                                    }
+                                ]
+                            }} />
+                            <h6 className="text-center mt-3">Covid-19 Cases Situation in Pakistan</h6>
+                        </div>
+                        <div className="col-12 col-md-6">
+                            <Line width="100" height="50" data={{
+                                labels: xAxis,
+                                datasets: [
+                                    {
+                                        label: 'Deaths',
+                                        data: newDeaths,
+                                        borderColor: 'red'
+                                    }
+                                ]
+                            }} />
+                            <h6 className="text-center mt-3">Covid-19 Deaths Situation in Pakistan</h6>
+                        </div>
+                    </div>
+                    ) }
                 </div>
             </section>
         </>
