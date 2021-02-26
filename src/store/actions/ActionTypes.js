@@ -1,0 +1,7 @@
+export const STATS_LOADING = 'STATS_LOADING';
+export const STATS_ERROR = 'STATS_ERROR';
+export const STATS_LOADED = 'STATS_LOADED';
+
+export const HISTORY_LOADING = 'HISTORY_LOADING';
+export const HISTORY_ERROR = 'HISTORY_ERROR';
+export const HISTORY_LOADED = 'HISTORY_LOADED';
