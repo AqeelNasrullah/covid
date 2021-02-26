@@ -7,7 +7,8 @@ import { fetchStats } from '../store/actions/ActionCreators';
 const Global = () => {
     const dispatch = useDispatch();
     const statistics = useSelector(state => state.statistics);
-    const stats = statistics.stats?.response;
+    const stats = statistics.stats?.response?.filter(stat => stat.country !== 'All');
+    const total = statistics.stats?.response?.filter(stat => stat.country === 'All')[0];
 
     useEffect(() => {
         document.title = 'Global - COVID-19 Statistics';
@@ -24,6 +25,7 @@ const Global = () => {
                     <Table responsive size="sm">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Country</th>
                                 <th>Total Cases</th>
                                 <th>New Cases</th>
@@ -46,7 +48,8 @@ const Global = () => {
                                     <td className="text-center text-danger" colSpan="11"><i className="bi bi-exclamation-circle"></i> { statistics.err }</td>
                                 </tr>
                             ) : stats.map((stat, index) => {
-                                return (stat.country !== 'All' && <tr key={index}>
+                                return (<tr key={index}>
+                                    <td>{ index + 1 }</td>
                                     <td><Link to={`/stats/country/${ stat.country.toLowerCase() }`}>{ stat.country.replace(new RegExp('-', 'g'), ' ') }</Link></td>
                                     <td>{ stat.cases.total.toLocaleString() }</td>
                                     <td>{ stat.cases.new }</td>
@@ -67,20 +70,20 @@ const Global = () => {
                                 <tr>
                                     <td className="text-center text-danger" colSpan="11"></td>
                                 </tr>
-                            ) : stats.map((stat, index) => {
-                                return (stat.country === 'All' && <tr className="text-light bg-secondary" key={index}>
-                                    <td>Total</td>
-                                    <td>{ stat.cases.total.toLocaleString() }</td>
-                                    <td>{ stat.cases.new }</td>
-                                    <td>{ stat.cases.active?.toLocaleString() }</td>
-                                    <td>{ stat.deaths.total?.toLocaleString() }</td>
-                                    <td>{ stat.deaths.new }</td>
-                                    <td>{ stat.cases.recovered?.toLocaleString() }</td>
-                                    <td>{ stat.cases.critical?.toLocaleString() }</td>
-                                    <td>{ stat.tests.total?.toLocaleString() }</td>
-                                    <td>{ stat.population?.toLocaleString() }</td>
-                                </tr>)
-                            }) }
+                            ) : <tr className="bg-secondary text-light">
+                                    <td></td>
+                                    <td>World</td>
+                                    <td>{ total.cases.total.toLocaleString() }</td>
+                                    <td>{ total.cases.new }</td>
+                                    <td>{ total.cases.active?.toLocaleString() }</td>
+                                    <td>{ total.deaths.total?.toLocaleString() }</td>
+                                    <td>{ total.deaths.new }</td>
+                                    <td>{ total.cases.recovered?.toLocaleString() }</td>
+                                    <td>{ total.cases.critical?.toLocaleString() }</td>
+                                    <td>{ total.tests.total?.toLocaleString() }</td>
+                                    <td>{ total.population?.toLocaleString() }</td>
+                                </tr>
+                            }
                         </tbody>
                     </Table>
                 </div>
